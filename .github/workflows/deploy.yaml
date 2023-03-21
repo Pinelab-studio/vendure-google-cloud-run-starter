@@ -1,0 +1,75 @@
+name: Deploy Vendure
+on:
+  push:
+    branches:
+      - develop
+      - main
+
+env:
+  GCLOUD_PROJECT: your-project
+
+jobs:
+  
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: google-github-actions/auth@v0
+        with:
+          project_id: $GCLOUD_PROJECT
+          credentials_json: ${{ secrets.GCLOUD_DEVOPS_KEY }}
+      - uses: 'google-github-actions/setup-gcloud@v0'
+        with:
+          project_id: $GCLOUD_PROJECT
+      - name: Build Docker container
+        run: ./build-docker.sh $GCLOUD_PROJECT
+
+  deploy-production:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    name: Deploying Prod ${{ matrix.instances.name }} with ${{ matrix.instances.secret }}
+    needs: [ build ]
+    strategy:
+      matrix:
+        instances: [
+          { name: "your-project-api", db: "prod-db", secret: "ENV_PROD", memory: "2G"},
+          { name: "your-project-worker", db: "prod-db", secret: "ENV_PROD", memory: "2G"},
+        ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: google-github-actions/auth@v0
+        with:
+          project_id: $GCLOUD_PROJECT
+          credentials_json: ${{ secrets.GCLOUD_DEVOPS_KEY }}
+      - uses: 'google-github-actions/setup-gcloud@v0'
+        with:
+          project_id: $GCLOUD_PROJECT
+      - run: 'echo "$SECRET_VARS" > .env'
+        env:
+          SECRET_VARS: ${{secrets[matrix.instances.secret]}}
+      - run: ./deploy.sh ${{ matrix.instances.name }} ${{ matrix.instances.db }} ${{ matrix.instances.memory }}
+
+  deploy-test:
+    if: ${{ github.ref == 'refs/heads/develop' }}
+    name: Deploying Test ${{ matrix.instances.name }} with ${{ matrix.instances.secret }}
+    needs: [ build ]
+    strategy:
+      matrix:
+        instances: [
+          { name: "your-project-test-api", db: "test-db", secret: "ENV_TEST", memory: "1G"},
+          { name: "your-project-test-worker", db: "test-db", secret: "ENV_TEST", memory: "1G"},
+        ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: google-github-actions/auth@v0
+        with:
+          project_id: $GCLOUD_PROJECT
+          credentials_json: ${{ secrets.GCLOUD_DEVOPS_KEY }}
+      - uses: 'google-github-actions/setup-gcloud@v0'
+        with:
+          project_id: $GCLOUD_PROJECT
+      - run: 'echo "$SECRET_VARS" > .env'
+        env:
+          SECRET_VARS: ${{secrets[matrix.instances.secret]}}
+      - run: ./deploy.sh ${{ matrix.instances.name }} ${{ matrix.instances.db }} ${{ matrix.instances.memory }} $GCLOUD_PROJECT
