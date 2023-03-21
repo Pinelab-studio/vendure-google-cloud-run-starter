@@ -9,6 +9,8 @@ env:
   GCLOUD_PROJECT: your-project
 
 jobs:
+
+  if: false
   
   build:
     runs-on: ubuntu-latest
