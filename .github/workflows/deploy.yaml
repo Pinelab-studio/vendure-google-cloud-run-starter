@@ -10,8 +10,6 @@ env:
 
 jobs:
 
-  if: false
-  
   build:
     runs-on: ubuntu-latest
     steps:

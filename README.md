@@ -110,8 +110,6 @@ Delete the key file!
 
 Copy the contents of your `.env` file, **without comments and empty lines**, into a repository secret named `ENV_PROD` (`ENV_TEST` for the test env).
 
-Remove the line `if: false` from `.github/workflows/deploy.yaml`.
-
 Go through the following files and replace any variables specific to your project: 
 * All files in `.github/workflows`
 * `deploy.sh`
