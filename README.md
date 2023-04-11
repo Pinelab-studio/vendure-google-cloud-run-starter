@@ -63,7 +63,7 @@ gcloud sql users create vendure-prod --instance=prod-db, -i prod-db --host=% --p
 
 Create a buckt for Vendure's assets and make the bucket publicly readable
 
-1. `gcloud storage buckets create gs://prod-assets --project=$GCLOUD_PROJECT`
+1. `gcloud storage buckets create gs://prod-assets --location=europe-west4 --project=$GCLOUD_PROJECT`
 2. `gcloud storage buckets add-iam-policy-binding gs://prod-assets --member=allUsers --role=roles/storage.objectViewer`
 
 ## Env vars
