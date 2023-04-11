@@ -1,0 +1,8 @@
+__admin-ui
+__data__
+.github
+.husky
+dist
+node_modules
+static
+test/test-emails
