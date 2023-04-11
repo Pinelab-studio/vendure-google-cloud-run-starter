@@ -10,9 +10,8 @@
     "serve:test": "export ENV_FILE=.env.test && yarn serve",
     "build": "rimraf dist && yarn tsc",
     "build:admin": "rimraf src/__admin-ui && yarn ts-node src/compile-admin-ui.ts",
-    "lint": "yarn eslint",
-    "lint:check": "yarn lint .",
-    "lint:fix": "yarn lint --fix .",
+    "lint:check": "yarn prettier --check . && yarn eslint .",
+    "lint:fix": "yarn prettier --write . && yarn eslint --fix .",
     "script:prod": "export ENV_FILE=.env && yarn ts-node",
     "script:test": "export ENV_FILE=.env.test && yarn ts-node",
     "generate-migration": "yarn ts-node migration generate",
@@ -55,6 +54,7 @@
     "husky": "^8.0.2",
     "jest": "^29.5.0",
     "nodemon": "^2.0.21",
+    "prettier": "^2.8.7",
     "ts-jest": "^29.0.5",
     "ts-node": "10.9.1"
   }

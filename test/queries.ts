@@ -1,7 +1,7 @@
 import { gql } from "graphql-tag";
 
 export const OrderFieldsFragment = gql`
-fragment OrderFields on Order {
+  fragment OrderFields on Order {
     id
     orderPlacedAt
     code
@@ -39,51 +39,53 @@ fragment OrderFields on Order {
         type
       }
     }
-}`;
+  }
+`;
 
 export const AddItemToOrder = gql`
-${OrderFieldsFragment}
-mutation addItemToOrder($productVariantId: ID!, $quantity: Int!) {
-  addItemToOrder(productVariantId: $productVariantId, quantity: $quantity) {
-    ... on Order {
+  ${OrderFieldsFragment}
+  mutation addItemToOrder($productVariantId: ID!, $quantity: Int!) {
+    addItemToOrder(productVariantId: $productVariantId, quantity: $quantity) {
+      ... on Order {
         ...OrderFields
-    }
-    ... on ErrorResult {
-      errorCode
-      message
+      }
+      ... on ErrorResult {
+        errorCode
+        message
+      }
     }
   }
-}`;
+`;
 
 export const SetShippingAddress = gql`
-    ${OrderFieldsFragment}
-    mutation setOrderShippingAddress($input: CreateAddressInput!) {
-        setOrderShippingAddress(input: $input) {
-            ... on Order {
-                ...OrderFields
-            }
-        }
-}`;
+  ${OrderFieldsFragment}
+  mutation setOrderShippingAddress($input: CreateAddressInput!) {
+    setOrderShippingAddress(input: $input) {
+      ... on Order {
+        ...OrderFields
+      }
+    }
+  }
+`;
 
 export const SetCustomerForOrder = gql`
-    ${OrderFieldsFragment}
-    mutation setCustomerForOrder($input: CreateCustomerInput!) {
-        setCustomerForOrder(input: $input) {
-            ... on Order {
-                ...OrderFields
-            }
-        }
-}`;
-
-
+  ${OrderFieldsFragment}
+  mutation setCustomerForOrder($input: CreateCustomerInput!) {
+    setCustomerForOrder(input: $input) {
+      ... on Order {
+        ...OrderFields
+      }
+    }
+  }
+`;
 
 export const SetOrderShippingMethod = gql`
-    ${OrderFieldsFragment}
+  ${OrderFieldsFragment}
   mutation setOrderShippingMethod($id: ID!) {
     setOrderShippingMethod(shippingMethodId: $id) {
-        ... on Order {
-                ...OrderFields
-            }
+      ... on Order {
+        ...OrderFields
+      }
       ... on ErrorResult {
         errorCode
         message
@@ -93,12 +95,12 @@ export const SetOrderShippingMethod = gql`
 `;
 
 export const TransitionToState = gql`
- ${OrderFieldsFragment}
+  ${OrderFieldsFragment}
   mutation transitionOrderToState($state: String!) {
     transitionOrderToState(state: $state) {
-        ... on Order {
-                ...OrderFields
-            }
+      ... on Order {
+        ...OrderFields
+      }
       ... on OrderStateTransitionError {
         errorCode
         message
@@ -109,7 +111,7 @@ export const TransitionToState = gql`
 `;
 
 export const AddPaymentToOrder = gql`
- ${OrderFieldsFragment}
+  ${OrderFieldsFragment}
   mutation addPaymentToOrder($input: PaymentInput!) {
     addPaymentToOrder(input: $input) {
       ... on Order {

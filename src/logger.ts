@@ -1,6 +1,6 @@
-import winston, { format, Logger } from 'winston';
-import { LoggingWinston } from '@google-cloud/logging-winston';
-import { VendureLogger } from '@vendure/core';
+import winston, { format, Logger } from "winston";
+import { LoggingWinston } from "@google-cloud/logging-winston";
+import { VendureLogger } from "@vendure/core";
 
 const { combine, errors } = format;
 
@@ -8,7 +8,7 @@ export class CloudLogger implements VendureLogger {
   private readonly name: string;
 
   constructor(private readonly logger: Logger) {
-    this.name = process.env.K_SERVICE ?? 'local';
+    this.name = process.env.K_SERVICE ?? "local";
   }
 
   error(message: string, context?: string, trace?: string): void {
@@ -42,7 +42,7 @@ const cloudLoggingWinston = new LoggingWinston({
 
 const winstonLogger = winston.createLogger({
   format: combine(errors({ stack: true })),
-  level: 'info',
+  level: "info",
   transports: [cloudLoggingWinston],
 });
 

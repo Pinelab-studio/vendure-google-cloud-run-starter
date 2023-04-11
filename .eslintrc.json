@@ -1,45 +1,36 @@
 {
-    "env": {
-        "commonjs": true,
-        "node": true
-    },
-    "extends": [
-        "standard-with-typescript",
-        "prettier"
-    ],
-    "overrides": [
-        {
-            "files": [
-                "*.graphql"
-            ],
-            "parser": "@graphql-eslint/eslint-plugin",
-            "plugins": [
-                "@graphql-eslint"
-            ],
-            "rules": {
-                "@graphql-eslint/known-type-names": "error"
-            }
-        }
-    ],
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "project": [
-            "./tsconfig.json"
-        ]
-    },
-    "ignorePatterns": [
-        "migration.ts",
-        "test",
-        "dist",
-        "node_modules",
-        "lib",
-        "__admin-ui",
-        "*.min.js",
-        ".temp"
-    ],
-    "rules": {
-        "@typescript-eslint/strict-boolean-expressions": "off",
-        "@typescript-eslint/restrict-template-expressions": "off",
-        "@typescript-eslint/consistent-type-imports": "off"
+  "env": {
+    "commonjs": true,
+    "node": true
+  },
+  "extends": ["standard-with-typescript", "prettier"],
+  "overrides": [
+    {
+      "files": ["*.graphql"],
+      "parser": "@graphql-eslint/eslint-plugin",
+      "plugins": ["@graphql-eslint"],
+      "rules": {
+        "@graphql-eslint/known-type-names": "error"
+      }
     }
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "project": ["./tsconfig.json"]
+  },
+  "ignorePatterns": [
+    "migration.ts",
+    "test",
+    "dist",
+    "node_modules",
+    "lib",
+    "__admin-ui",
+    "*.min.js",
+    ".temp"
+  ],
+  "rules": {
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/consistent-type-imports": "off"
+  }
 }

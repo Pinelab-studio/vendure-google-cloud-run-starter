@@ -1,9 +1,9 @@
 # Vendure Google Cloud Run Starter
 
-* Includes GitHub actions:
-  * To deploy to test and production 
-  * To run e2e tests on pull requests
-  * To check if source is still valid according to Esling
+- Includes GitHub actions:
+  - To deploy to test and production
+  - To run e2e tests on pull requests
+  - To check if source is still valid according to Esling
 
 ## Setting up Vendure on Google Cloud
 
@@ -22,6 +22,7 @@ This guide assumes you have `gcloud` installed locally on your machine.
 ## Create a MySQL database
 
 1. Create an SQL instance. Make sure to get your local machine's public IP for enabling public access to from your IP to the DB.
+
 ```shell
 gcloud sql instances create prod-db \
   --database-version=MYSQL_8_0 \
@@ -40,7 +41,9 @@ gcloud sql instances create prod-db \
   --storage-type=SSD \
   --project=$GCLOUD_PROJECT
 ```
+
 2. Create a database:
+
 ```shell
 gcloud sql databases create prod-db \
 --instance=prod-db \
@@ -48,14 +51,19 @@ gcloud sql databases create prod-db \
 --collation=utf8mb4_unicode_ci \
 --project=$GCLOUD_PROJECT
 ```
+
 3. Create a user specifically for this database. You have to login to MySQL as the root user for this. You can do this via the commandline or a tool like MySQL workbench.
+
 ```mysql
 CREATE USER 'vendure-prod'@'%' IDENTIFIED BY 'your-pass';
 ```
+
 4. Grant the created user access to the database
+
 ```mysql
 GRANT ALL PRIVILEGES ON `prod-db`.* TO 'vendure-prod'@'%';
 ```
+
 5.  Repeat these steps if you'd also like a test environment.
 
 ## Asset storage
@@ -66,9 +74,11 @@ Create a buckt for Vendure's assets and make the bucket publicly readable
 2. `gcloud storage buckets add-iam-policy-binding gs://prod-assets --member=allUsers --role=roles/storage.objectViewer`
 
 ## Env vars
+
 Copy the .env.example file and fill in your values.
 
 ## Test locally
+
 `yarn build:admin`
 `yarn generate-migration:prod initial-startup`
 `yarn run-migration:prod`
@@ -77,9 +87,9 @@ Copy the .env.example file and fill in your values.
 You should be able to access `http://localhost:3000/admin`, `http://localhost:3000/admin-api` and `http://localhost:3000/shop-api`
 
 Test asset upload:
+
 1. Before you start the server, run `gcloud auth application-default login`
 2. Start Vendure and upload an asset. It should upload to your specified bucket
-
 
 ## Deployments
 
@@ -93,6 +103,7 @@ gcloud iam service-accounts create devops-sa \
 ```
 
 Grant roles
+
 ```shell
 gcloud projects add-iam-policy-binding $GCLOUD_PROJECT \
     --member="serviceAccount:devops-sa@$GCLOUD_PROJECT.iam.gserviceaccount.com" \
@@ -100,20 +111,23 @@ gcloud projects add-iam-policy-binding $GCLOUD_PROJECT \
 ```
 
 Create JSON key
+
 ```shell
 gcloud iam service-accounts keys create key.json \
     --iam-account=devops-sa@$GCLOUD_PROJECT.iam.gserviceaccount.com
 ```
+
 Copy the contents of the `key.json` file and store it in a repository secret https://github.com/YOUR-repository/settings/secrets/actions
 
 Delete the key file!
 
 Copy the contents of your `.env` file, **without comments and empty lines**, into a repository secret named `ENV_PROD` (`ENV_TEST` for the test env).
 
-Go through the following files and replace any variables specific to your project: 
-* All files in `.github/workflows`
-* `deploy.sh`
-* `build-docker.sh`
+Go through the following files and replace any variables specific to your project:
+
+- All files in `.github/workflows`
+- `deploy.sh`
+- `build-docker.sh`
 
 ## Keep alive for performance
 
@@ -128,15 +142,16 @@ gcloud scheduler jobs create http vendure-prod-keep-alive \
 ```
 
 ## Google Cloud Console
+
 Some useful and important links to view your application health:
 
-* https://console.cloud.google.com/logs/ Stack driver logging. All logs are written to a logfile named `winston_test` or `winston_prod`, depending on your APP_ENV value. You can display instance (worker or main) and plugin fiels by including `labels.module` and `labels.name` in the summary fields in Stack Driver.
-* https://console.cloud.google.com/run to view your Cloud Run services and domains
-* https://console.cloud.google.com/sql/instances to view your database server instances
-* https://console.cloud.google.com/storage/browser to view your buckets and assets
+- https://console.cloud.google.com/logs/ Stack driver logging. All logs are written to a logfile named `winston_test` or `winston_prod`, depending on your APP_ENV value. You can display instance (worker or main) and plugin fiels by including `labels.module` and `labels.name` in the summary fields in Stack Driver.
+- https://console.cloud.google.com/run to view your Cloud Run services and domains
+- https://console.cloud.google.com/sql/instances to view your database server instances
+- https://console.cloud.google.com/storage/browser to view your buckets and assets
 
 ## Admin UI compilation
 
 When you add plugins that have custom UI, you need to add the plugin to `src/compile-admin-ui.ts` and run `yarn build:admin`. We commit the compiled files in `__admin-ui/dist` to git, to prevent recompilation on every deploy, because it can take quite long and is only necessary when UI changes have been introduces in `compile-admin-ui.ts`.
 
-If you prefer to build the admin UI on every deploy, take a look at https://www.vendure.io/docs/plugins/extending-the-admin-ui/#compiling-as-a-deployment-step 
+If you prefer to build the admin UI on every deploy, take a look at https://www.vendure.io/docs/plugins/extending-the-admin-ui/#compiling-as-a-deployment-step

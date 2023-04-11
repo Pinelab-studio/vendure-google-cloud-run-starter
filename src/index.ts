@@ -1,9 +1,9 @@
-import { bootstrap, JobQueueService, Logger } from '@vendure/core';
-import dotenv from 'dotenv';
+import { bootstrap, JobQueueService, Logger } from "@vendure/core";
+import dotenv from "dotenv";
 dotenv.config({ path: process.env.ENV_FILE });
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const {runningInWorker, runningLocal, config} = require('./vendure-config');
+const { runningInWorker, runningLocal, config } = require("./vendure-config");
 bootstrap(config)
   .then(async (app) => {
     if (runningInWorker || runningLocal) {
@@ -15,5 +15,5 @@ bootstrap(config)
   })
   .catch((err) => {
     console.error(err);
-    Logger.error(err)
+    Logger.error(err);
   });

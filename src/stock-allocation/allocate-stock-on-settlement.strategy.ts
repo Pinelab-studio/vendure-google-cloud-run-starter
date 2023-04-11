@@ -3,7 +3,7 @@ import {
   OrderState,
   RequestContext,
   StockAllocationStrategy,
-} from '@vendure/core';
+} from "@vendure/core";
 
 /**
  * Only allocate stock to orders when PaymentSettled
@@ -17,6 +17,6 @@ export class AllocateStockOnSettlementStrategy
     toState: OrderState,
     order: Order
   ): boolean | Promise<boolean> {
-    return toState === 'PaymentSettled';
+    return toState === "PaymentSettled";
   }
 }
