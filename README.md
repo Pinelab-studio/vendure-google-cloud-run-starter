@@ -52,16 +52,9 @@ gcloud sql databases create prod-db \
 --project=$GCLOUD_PROJECT
 ```
 
-3. Create a user specifically for this database. You have to login to MySQL as the root user for this. You can do this via the commandline or a tool like MySQL workbench.
-
-```mysql
-CREATE USER 'vendure-prod'@'%' IDENTIFIED BY 'your-pass';
-```
-
-4. Grant the created user access to the database
-
-```mysql
-GRANT ALL PRIVILEGES ON `prod-db`.* TO 'vendure-prod'@'%';
+3. Create a user specifically for this database.
+```shell
+gcloud sql users create vendure-prod --instance=prod-db, -i prod-db --host=% --password=YOUR_SECRET_PASS --project=$GCLOUD_PROJECT
 ```
 
 5.  Repeat these steps if you'd also like a test environment.
