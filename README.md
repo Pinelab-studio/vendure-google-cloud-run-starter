@@ -110,7 +110,7 @@ gcloud iam service-accounts keys create key.json \
     --iam-account=devops-sa@$GCLOUD_PROJECT.iam.gserviceaccount.com
 ```
 
-Copy the contents of the `key.json` file and store it in a repository secret https://github.com/YOUR-repository/settings/secrets/actions
+Copy the contents of the `key.json` file and store it in a repository secret under the name `GCLOUD_DEVOPS_KEY` https://github.com/YOUR-repository/settings/secrets/actions
 
 Delete the key file!
 
