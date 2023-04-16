@@ -2,8 +2,9 @@
 
 - Includes GitHub actions:
   - To deploy to test and production
-  - To run e2e tests on pull requests
-  - To check if source is still valid according to Esling
+  - To run e2e tests and linting on pull requests
+
+All commands are ready to copy/paste, but please read them carefully: they include some default values for region and resource usage that you might want to change.
 
 ## Setting up Vendure on Google Cloud
 
