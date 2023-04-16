@@ -4,15 +4,12 @@
   - To deploy to test and production
   - To run e2e tests and linting on pull requests
 
-All commands are ready to copy/paste, but please read them carefully: they include some default values for region and resource usage that you might want to change.
-
-## Setting up Vendure on Google Cloud
-
-This project uses `your-project` as example name, so make sure to ctrl+f all files for occurences of `your-project` when you're done with this guide.
+All commands are ready to copy/paste, but please read them carefully: they include some default values for region and resource usage that you might want to change. This guide uses `your-project` as example name, so make sure to ctrl+f all files for occurences of `your-project` when you're done with this guide.
 
 ## Prerequisites
 
-This guide assumes you have `gcloud` installed locally on your machine.
+* You have `gcloud` installed locally on your machine.
+* The source code from this repository checked out on your local machine
 
 ## Create a Google Cloud project
 
