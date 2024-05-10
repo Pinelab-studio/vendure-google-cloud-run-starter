@@ -55,8 +55,8 @@ gcloud sql databases create prod-db \
 gcloud sql users create vendure-prod --instance=prod-db --host=% --password=YOUR_SECRET_PASS --project=$GCLOUD_PROJECT
 ```
 
-5.  Repeat these steps if you'd also like a test environment.
-6.  To copy your production database to your test environment, run:
+5.  Repeat these steps if you'd also like a test environment:
+6.  To copy your production database to your test database, run:
 ```shell
 mysqldump --verbose --set-gtid-purged=OFF --column-statistics=0 -u PROD_DB_USER -h YOUR_PROD_DB_IP --password='PROD_DB_PASSWORD' vendure-prod-db > prod.sql && mysql --verbose -u TEST_DB_USER -h YOUR_TEST_DB_IP --password='TEST_DB_PASSWORD' vendure-test-db < prod.sql
 ```
@@ -67,6 +67,8 @@ Create a buckt for Vendure's assets and make the bucket publicly readable
 
 1. `gcloud storage buckets create gs://prod-assets --location=europe-west4 --project=$GCLOUD_PROJECT`
 2. `gcloud storage buckets add-iam-policy-binding gs://prod-assets --member=allUsers --role=roles/storage.objectViewer`
+
+For a test environment, you can use Transfer Jobs to copy your assets from your production bucket into your test asset bucket: https://console.cloud.google.com/transfer/create
 
 ## Env vars
 
