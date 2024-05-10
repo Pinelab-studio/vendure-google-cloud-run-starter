@@ -52,10 +52,14 @@ gcloud sql databases create prod-db \
 
 3. Create a user specifically for this database.
 ```shell
-gcloud sql users create vendure-prod --instance=prod-db, -i prod-db --host=% --password=YOUR_SECRET_PASS --project=$GCLOUD_PROJECT
+gcloud sql users create vendure-prod --instance=prod-db --host=% --password=YOUR_SECRET_PASS --project=$GCLOUD_PROJECT
 ```
 
 5.  Repeat these steps if you'd also like a test environment.
+6.  To copy your production database to your test environment, run:
+```shell
+mysqldump --verbose --set-gtid-purged=OFF --column-statistics=0 -u PROD_DB_USER -h YOUR_PROD_DB_IP --password='PROD_DB_PASSWORD' vendure-prod-db > prod.sql && mysql --verbose -u TEST_DB_USER -h YOUR_TEST_DB_IP --password='TEST_DB_PASSWORD' vendure-test-db < prod.sql
+```
 
 ## Asset storage
 
